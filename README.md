@@ -1,2 +1,2 @@
 # bigdata
-Repository to store all projects/traning related to Big Data and Hadoop
+Big Data and Hadoop training and pet projects
