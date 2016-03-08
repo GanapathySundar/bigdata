@@ -5,11 +5,13 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
 
 public class WeatherRecordWritable implements WritableComparable<WeatherRecordWritable> {
 	
 	private DateWritable timestamp;
+	private Text stationId;
 	private GeoPositionWritable location;
 	private DoubleWritable value;
 	
@@ -19,6 +21,7 @@ public class WeatherRecordWritable implements WritableComparable<WeatherRecordWr
 		timestamp = new DateWritable();
 		location = new GeoPositionWritable();
 		value = new DoubleWritable();
+		stationId = new Text();
 	}
 	
 	
@@ -51,10 +54,20 @@ public class WeatherRecordWritable implements WritableComparable<WeatherRecordWr
 		this.value = value;
 	}
 
+	public Text getStationId() {
+		return stationId;
+	}
+
+
+	public void setStationId(Text stationId) {
+		this.stationId = stationId;
+	}
+
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
 		timestamp.readFields(in);
+		stationId.readFields(in);
 		location.readFields(in);
 		value.readFields(in);
 		
@@ -62,6 +75,7 @@ public class WeatherRecordWritable implements WritableComparable<WeatherRecordWr
 	@Override
 	public void write(DataOutput out) throws IOException {
 		timestamp.write(out);
+		stationId.write(out);
 		location.write(out);
 		value.write(out);		
 	}
@@ -70,9 +84,12 @@ public class WeatherRecordWritable implements WritableComparable<WeatherRecordWr
 	public int compareTo(WeatherRecordWritable o) {
 		int res = timestamp.compareTo(o.timestamp);
 		if(res == 0){
+			res = stationId.compareTo(o.stationId);
+			if(res==0){
 			res = location.compareTo(o.location);
 			if(res==0){
 				res = value.compareTo(o.value);
+				}
 			}
 		}
 		return res;
@@ -84,6 +101,7 @@ public class WeatherRecordWritable implements WritableComparable<WeatherRecordWr
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + ((stationId == null)? 0 : stationId.hashCode());
 		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -109,6 +127,14 @@ public class WeatherRecordWritable implements WritableComparable<WeatherRecordWr
 		} else if (!location.equals(other.location)) {
 			return false;
 		}
+		if(stationId == null){
+			if(other.stationId != null){
+				return false;
+			}
+		} else if(!stationId.equals(other.stationId)){
+			return false;
+		}
+		
 		if (timestamp == null) {
 			if (other.timestamp != null) {
 				return false;
@@ -124,6 +150,13 @@ public class WeatherRecordWritable implements WritableComparable<WeatherRecordWr
 			return false;
 		}
 		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "WeatherRecordWritable [timestamp=" + timestamp + ", stationId=" + stationId + ", location=" + location
+				+ ", value=" + value + "]";
 	}
 	
 	

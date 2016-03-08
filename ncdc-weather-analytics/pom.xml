@@ -8,6 +8,7 @@
   	<hadoop.version>2.6.0</hadoop.version>
   	<mrunit.version>1.1.0</mrunit.version>
   	<jdk.version>1.7</jdk.version>
+  	<project.version>0.0.1-SNAPSHOT</project.version>
   </properties>
   <dependencies>
   	<dependency>
