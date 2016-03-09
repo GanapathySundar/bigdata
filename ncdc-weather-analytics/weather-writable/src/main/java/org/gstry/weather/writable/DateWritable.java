@@ -9,25 +9,41 @@ import java.util.Date;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.WritableComparable;
 
+/**
+ * Writable class to represent a {@link Date} class as a Hadoop Serializable data type
+ * @author Ganapathy Sundar
+ *
+ */
 public class DateWritable implements WritableComparable<DateWritable> {
 	
 	private Date timestamp;
 	
+	/**
+	 * Default Constructor
+	 */
 	public DateWritable() {
 		super();		
 		timestamp = Calendar.getInstance().getTime();
 	}
 
+	/**
+	 * Constructor using a Date
+	 * @param timestamp
+	 */
 	public DateWritable(Date timestamp) {
 		super();
 		this.timestamp = timestamp;
 	}
 	
-
+	/**
+	 * Get the timestamp value assosciated
+	 * @return timestamp
+	 */
 	public Date get() {
 		return timestamp;
 	}
 
+	
 	public void set(Date timestamp) {
 		this.timestamp = timestamp;
 	}

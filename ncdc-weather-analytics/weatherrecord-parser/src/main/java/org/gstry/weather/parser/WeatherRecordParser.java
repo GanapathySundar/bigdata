@@ -35,10 +35,12 @@ public abstract class WeatherRecordParser {
 	public static WeatherKeyWritable parseKey(String line)throws Exception{
 		
 		WeatherKeyWritable key = new WeatherKeyWritable();
-		SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		
 		String timeString = line.substring(15,19)+"-"+line.substring(19,21)+"-"+line.substring(21,23)+" "
 				   +line.substring(23,25)+":"+line.substring(25,27);
+		System.out.println("Time in String:"+timeString);
+		System.out.println("Time in Date:"+format.parse(timeString));
 		key.setStationId(new Text(line.substring(4, 10)));
 		key.setTimestamp(new DateWritable(format.parse(timeString)));
 		

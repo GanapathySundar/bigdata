@@ -22,8 +22,7 @@ public class DailyAggregatedWeatherMapper extends Mapper<WeatherKeyWritable,Weat
 			opKey.setTimestamp(new DateWritable(sdf.parse(ipDateString)));
 			opKey.setStationId(ipKey.getStationId());
 			context.write(opKey, record.getValue());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} catch (ParseException e) {			
 			e.printStackTrace();
 		}
 	}
