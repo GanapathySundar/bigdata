@@ -5,9 +5,9 @@ import org.apache.hadoop.util.Tool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WeatherRecorder extends Configured implements Tool{
+public class WeatherFileRecorder extends Configured implements Tool{
 
-	private static final Logger LOG = LoggerFactory.getLogger(WeatherRecorder.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WeatherFileRecorder.class);
 
 	@Override
 	public int run(String[] args) throws Exception {

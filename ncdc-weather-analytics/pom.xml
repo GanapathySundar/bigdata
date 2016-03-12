@@ -33,6 +33,7 @@
   <modules>
   	<module>weatherrecord-parser</module>
   	<module>weather-writable</module>
+  	
   </modules>
   <build>
   	<plugins>
