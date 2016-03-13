@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<properties>
+		<property name="logfile">~/osgi/logs/device.log</property>
+	</properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{YY-mm-dd HH:MM:SS} [%t] %-5level %logger{36}: %msg %n"/>
+		</Console>	
+		<File name="FileLog" fileName="${logfile}">
+			<PatternLayout pattern="%d{YY-MM-dd HH:mm:SS] [%t] %-5level %logger{36}: %msg %n"/>
+		</File>	
+	</Appenders>
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="Console"/>
+		</Root>
+		<Logger name="FileLogger" level="info" additivity="false">
+			<AppenderRef ref="FileLog"/>
+		</Logger>		
+	</Loggers>
+</Configuration>
