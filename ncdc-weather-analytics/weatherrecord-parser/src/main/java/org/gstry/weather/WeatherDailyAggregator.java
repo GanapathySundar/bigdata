@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Job;
@@ -13,6 +14,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.gstry.weather.daily.DailyAggregatedWeatherMapper;
 import org.gstry.weather.daily.DailyAggregatedWeatherReducer;
+import org.gstry.weather.reader.HadoopFileReader;
 import org.gstry.weather.writable.TemperatureTuple;
 import org.gstry.weather.writable.WeatherKeyWritable;
 import org.slf4j.Logger;
@@ -22,9 +24,11 @@ public class WeatherDailyAggregator extends Configured implements Tool {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(WeatherDailyAggregator.class);
 	private static final String APP_ID = "WEATHER DAILY AGGREGATOR";
+	private static final String REDUCE_PART_1 = "part-r-00000";
 
 	@Override
 	public int run(String[] args) throws Exception {
+		int res=0;
 		if(args.length != 2){
 			System.err.printf("Usage :%s [generic options] <ip_file> <op_file>",getClass().getSimpleName());
 			ToolRunner.printGenericCommandUsage(System.err);
@@ -34,7 +38,12 @@ public class WeatherDailyAggregator extends Configured implements Tool {
 		Path opFile = new Path(args[1]);
 		Job job = buildJob(this,getConf(),ipFile,opFile);
 		job.submit();		
-		return job.waitForCompletion(true)?0:1;
+		res=job.waitForCompletion(true)?0:1;
+	    /*if(res == 0){
+	    	 LOG.info("Reading the output contents of the file now");
+	    	 res = HadoopFileReader.readSequenceFile(FileSystem.get(getConf()), new Path(args[1]+"/"+REDUCE_PART_1), getConf());
+	    }	*/
+	    return res;
 	}
 
 	public static void main(String[] args) throws Exception {

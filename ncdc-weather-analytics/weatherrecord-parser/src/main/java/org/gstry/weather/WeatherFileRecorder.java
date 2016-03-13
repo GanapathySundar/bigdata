@@ -17,6 +17,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import org.gstry.weather.parser.WeatherRecordFilterMapper;
+import org.gstry.weather.reader.HadoopFileReader;
 import org.gstry.weather.writable.WeatherKeyWritable;
 import org.gstry.weather.writable.WeatherRecordWritable;
 import org.slf4j.Logger;
@@ -26,9 +27,11 @@ public class WeatherFileRecorder extends Configured implements Tool{
 
 	private static final Logger LOG = LoggerFactory.getLogger(WeatherFileRecorder.class);
 	private static final String APP_ID = "WEATHER RECORD PARSER";
+	private static final String REDUCE_PART_1 = "part-r-00000";
 
 	@Override
-	public int run(String[] args) throws Exception {		
+	public int run(String[] args) throws Exception {	
+		int res=0;
 		if(args.length!=2){
 			System.err.printf("Usage :%s [generic options] <directory_name> <opfile_name>",getClass().getSimpleName());
 			ToolRunner.printGenericCommandUsage(System.err);
@@ -45,14 +48,19 @@ public class WeatherFileRecorder extends Configured implements Tool{
 		else{
 			LOG.info("Job Instance created successfully.Running Map/Reduce now");
 			job.submit();			
-			return job.waitForCompletion(true)?0:1;
+		    res=job.waitForCompletion(true)?0:1;
+		   /* if(res == 0){
+		    	 LOG.info("Reading the output contents of the file now");
+		    	 res = HadoopFileReader.readSequenceFile(FileSystem.get(getConf()), new Path(args[1]+"/"+REDUCE_PART_1), getConf());
+		    }	*/   
+		    
 		}
-		
+		return res;
 	}
 	
 	public static void main(String args[]) throws Exception{
 		LOG.info("############### {} ################",APP_ID);
-		int exitCode = ToolRunner.run(new WeatherFileRecorder(), args);
+		int exitCode = ToolRunner.run(new WeatherFileRecorder(), args);		
 		System.exit(exitCode);	
 	}
 	
