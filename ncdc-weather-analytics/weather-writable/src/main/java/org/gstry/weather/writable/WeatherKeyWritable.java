@@ -102,7 +102,7 @@ public class WeatherKeyWritable implements WritableComparable<WeatherKeyWritable
 
 	@Override
 	public String toString() {
-		return "WeatherKeyWritable [stationId=" + stationId + ", timestamp=" + timestamp + "]";
+		return stationId.toString() + "\t"+ timestamp.toString();
 	}
 	
 	

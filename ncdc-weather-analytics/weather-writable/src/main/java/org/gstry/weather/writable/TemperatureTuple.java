@@ -100,7 +100,7 @@ public class TemperatureTuple implements WritableComparable<TemperatureTuple> {
 
 	@Override
 	public String toString() {
-		return "TemperatureTuple [maxTemperature=" + maxTemperature + ", minTemperature=" + minTemperature + "]";
+		return maxTemperature.toString()+"\t"+minTemperature.toString();
 	}
 	
 	

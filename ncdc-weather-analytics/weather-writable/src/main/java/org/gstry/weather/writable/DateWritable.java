@@ -98,7 +98,7 @@ public class DateWritable implements WritableComparable<DateWritable> {
 
 	@Override
 	public String toString() {
-		return "DateWritable [timestamp=" + timestamp + "]";
+		return timestamp.toString();
 	}
 	
 	
